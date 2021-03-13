@@ -1,5 +1,6 @@
 package com.joaodanieljr.desafio.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class ClienteService {
 	public void delete(Integer id) {
 		find(id);
 		clienteRepository.deleteById(id);
+	}
+	
+	public List<Cliente> findAll(){
+		return clienteRepository.findAll();
 	}
 	
 	
