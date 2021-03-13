@@ -28,4 +28,24 @@ public class ClienteService {
 		obj = clienteRepository.save(obj);
 		return obj;
 	}
+	
+	public Cliente update(Cliente obj) {
+		Cliente newObj =  find(obj.getId());
+		updateData(newObj, obj);
+		return clienteRepository.save(newObj);
+	}
+	
+	
+	public void delete(Integer id) {
+		find(id);
+		clienteRepository.deleteById(id);
+	}
+	
+	
+	private void updateData (Cliente newObj, Cliente obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
+		newObj.setCpf(obj.getCpf());
+		newObj.setDataNasc(obj.getDataNasc());
+	}
 }
