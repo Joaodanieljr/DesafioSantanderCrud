@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Past;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Cliente implements Serializable {
@@ -15,18 +18,21 @@ public class Cliente implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	private String nome;
 	private String email;
 	private String cpf;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	@Past(message = "Deve ser uma data do passado")
 	private LocalDate dataNasc;
 	
 	public Cliente() {
 		
 	}
 
-	public Cliente(int id, String nome, String email, String cpf, LocalDate dataNasc) {
+	public Cliente(Integer id, String nome, String email, String cpf, LocalDate dataNasc) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -35,11 +41,11 @@ public class Cliente implements Serializable {
 		this.dataNasc = dataNasc;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -22,4 +22,10 @@ public class ClienteService {
 																	+ ", Tipo: " 
 																	+ Cliente.class.getName()));
 	}
+	
+	public Cliente insert(Cliente obj) {
+		obj.setId(null);
+		obj = clienteRepository.save(obj);
+		return obj;
+	}
 }
