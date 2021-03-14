@@ -3,13 +3,12 @@ package com.joaodanieljr.desafio.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Past;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Cliente implements Serializable {
@@ -19,13 +18,14 @@ public class Cliente implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
 	private String nome;
+	
+	@Column(unique=true)
 	private String email;
+	
+	@Column(unique=true)
 	private String cpf;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	@Past(message = "Deve ser uma data do passado")
 	private LocalDate dataNasc;
 	
 	public Cliente() {

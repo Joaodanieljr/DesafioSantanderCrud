@@ -9,50 +9,61 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.joaodanieljr.desafio.Repository.ClienteRepository;
 import com.joaodanieljr.desafio.domain.Cliente;
+import com.joaodanieljr.desafio.dto.ClienteDTO;
 import com.joaodanieljr.desafio.exceptions.ObjectNotFoundException;
+import com.joaodanieljr.desafio.repository.ClienteRepository;
 
 @Service
 public class ClienteService {
-
+	
 	@Autowired
-	private ClienteRepository clienteRepository;
+	private ClienteRepository repo;
 	
 	public Cliente find(Integer id) {
-		Optional<Cliente> obj = clienteRepository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException( "Objeto não encontrado! ID: " 
-																	+ id 
-																	+ ", Tipo: " 
-																	+ Cliente.class.getName()));
+		Optional<Cliente> obj = repo.findById(id);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+																"Objeto não encontrado! ID: " 
+																+ id 
+																+ ", Tipo: " 
+																+ Cliente.class.getName())); 
+		
+		
+
 	}
 	
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		obj = clienteRepository.save(obj);
+		obj = repo.save(obj);
 		return obj;
 	}
 	
 	public Cliente update(Cliente obj) {
 		Cliente newObj =  find(obj.getId());
 		updateData(newObj, obj);
-		return clienteRepository.save(newObj);
+		return repo.save(newObj);
 	}
-	
 	
 	public void delete(Integer id) {
 		find(id);
-		clienteRepository.deleteById(id);
+		repo.deleteById(id);
 	}
 	
+	
 	public List<Cliente> findAll(){
-		return clienteRepository.findAll();
+		return repo.findAll();
 	}
 	
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pagerequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return clienteRepository.findAll(pagerequest);
+		return repo.findAll(pagerequest);
 	}
+	
+	
+	public Cliente fromDTO(ClienteDTO objDTO) {
+		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), objDTO.getCpf(), objDTO.getDataNasc());
+	}
+	
 	
 	private void updateData (Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
