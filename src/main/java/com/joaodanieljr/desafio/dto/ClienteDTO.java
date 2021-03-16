@@ -35,7 +35,7 @@ public class ClienteDTO implements Serializable{
 	private String cpf;
 	
 	
-	@JsonFormat(pattern = "dd-MM-yyyy")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@Past(message = "Deve ser uma data do passado")
 	private LocalDate dataNasc;
 	
